@@ -1,0 +1,65 @@
+<button id="decrement">-</button>
+<span id="count">0</span>
+<button id="increment">+</button>
+
+<!--Load Redux-->
+<script src="https://unpkg.com/redux@4.0.5/dist/redux.min.js"></script>
+
+
+
+<script>
+  // 1. Define reducer Function
+  // Purpose: Return a different new state based on different action objects.
+  // state: The initial state of the data being managed.
+  // action: An object with a type that indicates what modification is desired.
+  function reducer(state = {count: 0}, action){
+    //Data immutability: Generate a new state based on the original state.
+    if(action.type === 'INCREMENT'){
+      //return new state 
+      return {count: state.count + 1}
+    }
+    if(action.ty === 'DECREMENT'){
+      return {count: state.count - 1}
+    }
+    return state
+  }
+
+  // 2. Create a store instance using the reducer function.
+  const store = Redux.createStore(reducer)
+
+
+  // 3. Use the subscribe method of the store instance to subscribe to state changes.
+  // The callback function can be executed automatically every time the state changes.
+  // state -> view(buttion at the top)
+  store.subscribe(()=>{
+    console.log('state changed', store.getState())
+    document.getElementById('count').innerText = store.getState().count
+  })
+
+
+  // action object - reducer function
+  // 4. Use the dispatch function of the store instance to 
+  //    submit an action and change the state.
+  const inBtn = document.getElementById('increment')
+  inBtn.addEventListener('click', () => {
+    // Increment
+    store.dispatch({
+      type: 'INCREMENT'
+    })
+
+  })
+
+  const dBtn = document.getElementById('decrement')
+  dBtn.addEventListener('click', () => {
+    // Decrement
+    store.dispatch({
+      type: 'DECREMENT'
+    })
+
+
+  })
+
+  // Use the getState method of the store instance to get the 
+  //latest state and update the view accordingly.
+
+</script>
